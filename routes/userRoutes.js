@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('fs').promises;
 
 //home page
 router.get('/home', (req, res) => {
@@ -35,6 +36,18 @@ router.get('/ghosts/:id', (req, res) => {
 router.get('/search', (req, res) => {
     res.send(`search query: ${req.query.q}`);
 }); 
+
+//folder structure lab
+router.get('/folderStructure', async (req, res) => {
+        try {
+
+                //"example.txt" is the file being read by the fs module
+                const data = await fs.readFile('example.txt', 'utf-8');
+                res.send(data.toString());
+        }catch(error){
+        console.error('error reading file', error);
+        res.status(500).send('internal server error');}
+})
 
 
 
