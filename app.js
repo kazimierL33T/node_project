@@ -4,10 +4,10 @@ const app = express();
 const ejs = require('ejs');
 const fs = require('fs').promises;
 const mongoose = require('mongoose');
-const uri = process.env.MONGO_URI;
-const port = process.env.PORT || 8000;
 const dotenv = require('dotenv');
 dotenv.config();
+const uri = process.env.MONGO_URI;
+const port = process.env.PORT || 8000;
 
 //importing of userRoutes route handler
 const userRoutes = require('./routes/userRoutes');
@@ -25,17 +25,20 @@ app.use(userRoutes);
 
 
 
-/connecting to MONGODB,,, then is a promise here
-mongoose.connect(uri).then(async () => {
-
-    console.log('connected to MongoDB');
-    //server setup
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`)
-});
-})
-
-
-.catch(err) => {
-    console.error('error connecting to MongoDB: ${err}');
+// connecting to MongoDB, then start server
+if (!uri) {
+    console.error('MONGO_URI is missing in .env');
+    process.exit(1);
 }
+
+mongoose.connect(uri)
+  .then(() => {
+    console.log('connected to MongoDB');
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  })
+  .catch(err => {
+    console.error(`error connecting to MongoDB: ${err}`);
+    process.exit(1);
+  });
