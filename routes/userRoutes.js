@@ -1,11 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs').promises;
+const userController = require('../controllers/userController');
 
 //home page
 router.get('/home', (req, res) => {
-    res.render('home');
+    let user = "Kaz";
+
+    res.render('home', {user});
 })
+
+router.post('/users', userController.createUser)
 
 
     //example of a middleware functioon

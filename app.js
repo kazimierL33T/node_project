@@ -1,6 +1,7 @@
 //immporting of required modules
 const express = require('express');
 const app = express();
+
 const ejs = require('ejs');
 const fs = require('fs').promises;
 const mongoose = require('mongoose');
@@ -23,22 +24,28 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(userRoutes);
 
+//json response route handler
+app.get('/json-response', (req, res) =>{
+		
+		const data = {
+		  name: "Jane Doe",
+		}
 
+		res.json(data);
 
-// connecting to MongoDB, then start server
-if (!uri) {
-    console.error('MONGO_URI is missing in .env');
-    process.exit(1);
-}
+		})
 
-mongoose.connect(uri)
-  .then(() => {
+//connecting to MONGODB,,, then is a promise here
+mongoose.connect(uri).then(async () => {
+
     console.log('connected to MongoDB');
-    app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
-    });
-  })
-  .catch(err => {
-    console.error(`error connecting to MongoDB: ${err}`);
-    process.exit(1);
-  });
+    //server setup
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`)
+});
+})
+
+
+.catch((err) => {
+    console.error('error connecting to MongoDB: ${err}');
+});
