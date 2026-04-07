@@ -5,9 +5,7 @@ const userController = require('../controllers/userController');
 
 //home page
 router.get('/home', (req, res) => {
-    let user = "Kaz";
-
-    res.render('home', {user});
+    res.render('home');
 })
 
 router.post('/users', userController.createUser)

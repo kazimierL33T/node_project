@@ -8,9 +8,9 @@ async function createUser(req, res) {
         //create a new user object that exists in memory
 
         const newUser = {
-            first_name; req.body.first_name,
-            username; req.body.username,
-            email; req.body.email,
+            first_name: req.body.first_name,
+            username: req.body.username,
+            email:  req.body.email,
         };
 
         //create a new user document in the database
