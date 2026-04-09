@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs').promises;
 const userController = require('../controllers/userController');
+const User = require('../models/userModels.js');
+const mongoose = require('mongoose');
 
 //home page
 router.get('/home', (req, res) => {
@@ -50,8 +51,20 @@ router.get('/folderStructure', async (req, res) => {
         }catch(error){
         console.error('error reading file', error);
         res.status(500).send('internal server error');}
-})
+});
 
+
+//API endpooint that exposes all the users in the database
+router.get('/users', async (req, res) => {
+    try {
+        const users = await User.find();
+        
+        res.json(users).status(200);
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).send('Internal server error');
+    }
+});
 
 
 module.exports = router;
